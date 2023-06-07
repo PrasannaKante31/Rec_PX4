@@ -1,7 +1,12 @@
 #!/usr/bin/env groovy
 
 pipeline {
-  agent none
+  agent {
+    dockerfile true
+  }
+
+
+
   stages {
 
     stage('Analysis') {
@@ -15,9 +20,9 @@ pipeline {
       parallel {
 
         stage('Airframe') {
-          agent {
-            docker { image 'prasannakante/px4-dev-base-focal:latest' }
-          }
+          // agent {
+          //   docker { image 'prasannakante/px4-dev-base-focal:latest' }
+          // }
           steps {
             sh 'make distclean; git clean -ff -x -d .'
             sh 'git fetch --all --tags'
@@ -35,9 +40,9 @@ pipeline {
         }
 
         stage('Parameter') {
-          agent {
-            docker { image 'prasannakante/px4-dev-base-focal:latest' }
-          }
+          // agent {
+          //   docker { image 'prasannakante/px4-dev-base-focal:latest' }
+          // }
           steps {
             sh 'make distclean; git clean -ff -x -d .'
             sh 'git fetch --all --tags'
@@ -55,9 +60,9 @@ pipeline {
         }
 
         stage('Module') {
-          agent {
-            docker { image 'prasannakante/px4-dev-base-focal:latest' }
-          }
+          // agent {
+          //   docker { image 'prasannakante/px4-dev-base-focal:latest' }
+          // }
           steps {
             sh 'make distclean; git clean -ff -x -d .'
             sh 'git fetch --all --tags'
@@ -75,9 +80,9 @@ pipeline {
         }
 
         stage('msg file docs') {
-          agent {
-            docker { image 'prasannakante/px4-dev-base-focal:latest' }
-          }
+          // agent {
+          //   docker { image 'prasannakante/px4-dev-base-focal:latest' }
+          // }
           steps {
             sh 'mkdir -p build/msg_docs; ./Tools/msg/generate_msg_docs.py -d build/msg_docs'
             dir('build') {
@@ -154,9 +159,9 @@ pipeline {
       parallel {
 
         stage('Userguide') {
-          agent {
-            docker { image 'prasannakante/px4-dev-base-focal:latest' }
-          }
+          // agent {
+          //   docker { image 'prasannakante/px4-dev-base-focal:latest' }
+          // }
           steps {
             sh('export')
             unstash 'metadata_airframes'
@@ -191,9 +196,9 @@ pipeline {
         }
 
         stage('QGroundControl') {
-          agent {
-            docker { image 'prasannakante/px4-dev-base-focal:latest' }
-          }
+          // agent {
+          //   docker { image 'prasannakante/px4-dev-base-focal:latest' }
+          // }
           steps {
             sh('export')
             unstash 'metadata_airframes'
@@ -220,9 +225,9 @@ pipeline {
         }
 
         stage('PX4 ROS msgs') {
-          agent {
-            docker { image 'prasannakante/px4-dev-base-focal:latest' }
-          }
+          // agent {
+          //   docker { image 'prasannakante/px4-dev-base-focal:latest' }
+          // }
           steps {
             sh('export')
             sh('make distclean; git clean -ff -x -d .')
@@ -244,9 +249,9 @@ pipeline {
         }
 
         stage('S3') {
-          agent {
-            docker { image 'prasannakante/px4-dev-base-focal:latest' }
-          }
+          // agent {
+          //   docker { image 'prasannakante/px4-dev-base-focal:latest' }
+          // }
           steps {
             sh('export')
             unstash 'metadata_airframes'
